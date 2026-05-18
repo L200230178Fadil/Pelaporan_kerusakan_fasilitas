@@ -1,0 +1,48 @@
+<?php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FasilitasController;
+use App\Http\Controllers\Api\LaporanController;
+use App\Http\Controllers\Api\PerbaikanController;
+use App\Http\Controllers\Api\DashboardController;
+
+// ─── Auth ────────────────────────────────────────────────────
+Route::prefix('auth')->group(function () {
+    Route::post('login',  [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('me',      [AuthController::class, 'me']);
+    });
+});
+
+// ─── Public Routes ───────────────────────────────────────────
+Route::apiResource('laporan', LaporanController::class)->only(['index', 'store', 'show']);
+
+// ─── Protected Routes ────────────────────────────────────────
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Dashboard
+    Route::prefix('dashboard')->group(function () {
+        Route::get('summary', [DashboardController::class, 'summary']);
+        Route::get('trend',   [DashboardController::class, 'trend']);
+    });
+
+    // Fasilitas (admin: CUD, semua: R)
+    Route::apiResource('fasilitas', FasilitasController::class);
+
+    // Laporan (Admin bisa update/delete jika nanti ditambahkan)
+    // Route::apiResource('laporan', LaporanController::class)->except(['index', 'store', 'show']);
+
+    // Perbaikan / Monitoring
+    Route::prefix('perbaikan')->group(function () {
+        Route::get('/',                          [PerbaikanController::class, 'index']);
+        Route::get('{id}',                       [PerbaikanController::class, 'show']);
+        Route::patch('{id}/status',              [PerbaikanController::class, 'updateStatus']);
+        Route::post('{id}/catatan',              [PerbaikanController::class, 'addCatatan']);
+        Route::patch('{id}/assign',              [PerbaikanController::class, 'assignTeknisi']);
+    });
+});
