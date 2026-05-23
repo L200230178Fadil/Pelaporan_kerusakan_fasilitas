@@ -54,11 +54,11 @@ export function Modal({ open, onClose, title, children, size = 'md' }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-ink-950/50 backdrop-blur-sm" onClick={onClose} />
-      <div className={clsx('relative bg-ink-50 rounded-2xl shadow-2xl w-full max-h-[90vh] overflow-y-auto border border-ink-200 dark:border-ink-800', w[size])}
+      <div className={clsx('relative bg-ink-50 rounded-2xl shadow-2xl w-full max-h-[90vh] overflow-y-auto border border-ink-200', w[size])}
            style={{ animation: 'fadeUp 0.3s cubic-bezier(0.22,1,0.36,1) forwards' }}>
-        <div className="sticky top-0 bg-ink-50 flex items-center justify-between px-6 py-4 border-b border-ink-100 dark:border-ink-800 z-10">
+        <div className="sticky top-0 bg-ink-50 flex items-center justify-between px-6 py-4 border-b border-ink-100 z-10">
           <h3 className="font-display font-semibold text-ink-900">{title}</h3>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center hover:bg-ink-100 dark:hover:bg-ink-800 rounded-lg transition-colors text-ink-500">
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center hover:bg-ink-100 rounded-lg transition-colors text-ink-500">
             ✕
           </button>
         </div>

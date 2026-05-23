@@ -87,7 +87,7 @@ class FasilitasRusakChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'doughnut';
+        return 'bar';
     }
 
     protected function getOptions(): array
@@ -95,21 +95,18 @@ class FasilitasRusakChart extends ChartWidget
         return [
             'plugins' => [
                 'legend' => [
-                    'display'  => true,
-                    'position' => 'right',
-                    'labels'   => [
-                        'padding'     => 16,
-                        'usePointStyle' => true,
-                        'pointStyle'  => 'circle',
-                    ],
-                ],
-                'tooltip' => [
-                    'callbacks' => [
-                        // Callback dihandle Chart.js secara otomatis untuk persentase
-                    ],
+                    'display'  => false,
                 ],
             ],
-            'cutout'  => '60%',
+            'scales' => [
+                'x' => [
+                    'grid' => ['display' => false],
+                ],
+                'y' => [
+                    'beginAtZero' => true,
+                    'ticks' => ['stepSize' => 1],
+                ],
+            ],
             'responsive' => true,
             'maintainAspectRatio' => false,
         ];
